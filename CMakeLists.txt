@@ -1,7 +1,8 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 
 project(Lite_motion)
-SET(BUILD_PLATFORM "x86" CACHE STRING "select build cpu type")
+set(BUILD_PLATFORM "x86" CACHE STRING "select build cpu type")
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if (BUILD_PLATFORM STREQUAL arm)
   message("this is arm platform")
   SET(CMAKE_C_COMPILER "aarch64-linux-gnu-gcc")
