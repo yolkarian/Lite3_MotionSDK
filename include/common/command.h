@@ -12,7 +12,6 @@
 #include <iostream>
 #include <cmath>
 #include <stdint.h>
-#include <array>
 #include <bitset>
 
 

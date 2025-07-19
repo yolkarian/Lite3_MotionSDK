@@ -9,9 +9,7 @@
 #ifndef SENDER_H_
 #define SENDER_H_
 
-#include <iostream>
 #include <stdint.h>
-#include <array>
 #include "command.h"
 #include "udpsocket.hpp"
 #include "robot_types.h"

@@ -6,6 +6,7 @@
 /// @copyright Copyright (c) 2023
 
 #include "motionexample.h"
+#include <iostream>
 
 Vec3 goal_angle_fl, goal_angle_hl, goal_angle_fr, goal_angle_hr;
 Vec3 init_angle_fl, init_angle_fr, init_angle_hl, init_angle_hr;

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "udpsocket.hpp"
-#include <thread>
 
 class UDPServer : public UDPSocket
 {

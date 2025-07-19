@@ -8,19 +8,14 @@
 #ifndef RECEIVER_H_
 #define RECEIVER_H_
 
-#include <iostream>
+#include <functional>
 #include <cmath>
 #include <stdint.h>
-#include <array>
-#include <thread>
 #include <unistd.h>
-#include <time.h>
-#include <chrono>
 #include <sys/timerfd.h>
 #include <sys/epoll.h>
 
 #include "robot_types.h"
-#include "udpserver.hpp"
 
 /// @brief This class is used for receiving data from the robot.
 class Receiver {

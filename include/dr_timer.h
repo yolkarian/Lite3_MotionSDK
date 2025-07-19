@@ -8,11 +8,8 @@
 #ifndef DR_TIMER_H_
 #define DR_TIMER_H_
 
-#include <iostream>
 #include <stdint.h>
 #include <unistd.h>
-#include <time.h>
-#include <chrono>
 #include <sys/timerfd.h>
 #include <sys/epoll.h>
 

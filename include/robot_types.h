@@ -11,7 +11,6 @@
 #define ROBOT_TYPES_H_
 
 #include <stdint.h>
-#include <array>
 
 /// @brief A struct used to store the data collected from an IMU sensor.
 struct ImuData {
@@ -103,7 +102,7 @@ typedef struct {
 /// fields contain the IMU data, joint data, and contact force data for the robot, respectively.
 typedef struct{
   uint32_t tick;              // Timestamp for the data.
-  ImuData imu;                // IMU data for the robot.
+  struct ImuData imu;                // IMU data for the robot.
   LegData joint_data;         // Joint data for the robot.
   ContactForce contact_force; // Contact force data for the robot.
 }RobotData;
