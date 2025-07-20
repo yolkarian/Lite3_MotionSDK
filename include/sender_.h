@@ -10,7 +10,7 @@
 #define SENDER_H_
 
 #include <stdint.h>
-#include "command.h"
+#include "command_.h"
 #include "udpsocket.hpp"
 #include "robot_types.h"
 

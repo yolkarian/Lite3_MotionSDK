@@ -1,48 +1,82 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(Lite_motion)
-set(BUILD_PLATFORM "x86" CACHE STRING "select build cpu type")
+project(Lite_motion LANGUAGES CXX)
+
+# Set build platform (default to x86)
+set(BUILD_PLATFORM "x86" CACHE STRING "Select build CPU type: x86 or arm")
+
+# Enable export of compile commands
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-if (BUILD_PLATFORM STREQUAL arm)
-  message("this is arm platform")
-  SET(CMAKE_C_COMPILER "aarch64-linux-gnu-gcc")
-  SET(CMAKE_CXX_COMPILER "aarch64-linux-gnu-g++") 
+
+# Configure compiler for ARM platform
+if(BUILD_PLATFORM STREQUAL "arm")
+  message(STATUS "Configuring for ARM platform")
+  set(CMAKE_C_COMPILER "aarch64-linux-gnu-gcc")
+  set(CMAKE_CXX_COMPILER "aarch64-linux-gnu-g++")
 else()
-  message("this is x86 platform")
+  message(STATUS "Configuring for x86 platform")
 endif()
 
+# Set build type and C++ standard
 set(CMAKE_BUILD_TYPE Release)
-set(SRC_DIR_LIST "." src)
-add_definitions(-w) # warning ignore
-set(CMAKE_CXX_FLAGS "-std=c++11 ${CAMKE_CXX_FLAGS}")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-foreach(VAR ${SRC_DIR_LIST})
-  set(TEMP)
-  aux_source_directory(./src/ TEMP)
-  set(SRC_LIST ${RCS_SRC_LIST} ${TEMP})
-endforeach(VAR)
+# Suppress warnings
+add_compile_options(-w)
 
-include_directories(
-  ./include/
-  ./include/common/
-  ./lib/eigen3
+# Define SDK library name
+set(SDK_LIB "lite3_sdk")
+
+# Create static library
+add_library(${PROJECT_NAME} STATIC
+  src/wrapped/udp_socket.cpp
+  src/wrapped/udp_server.cpp
+  src/wrapped/dr_timer.cpp
+  src/wrapped/receiver.cpp
+  src/wrapped/sender.cpp
+  "src/wrapped/command.cpp"
 )
 
-link_directories(
-  ./lib/
+# Specify include directories
+target_include_directories(${PROJECT_NAME}
+  PUBLIC
+    include/wrapped
+  PRIVATE
+    include
+    include/common
+    lib/eigen3
 )
 
-add_executable(${PROJECT_NAME} "main.cpp"${SRC_LIST})
-# 链接动态库target_link_libraries(myprogram /path/to/lib/libfoo.so)
+# Specify library search path
+target_link_directories(${PROJECT_NAME}
+  PRIVATE
+    ${CMAKE_SOURCE_DIR}/lib
+)
 
+# Link libraries
+target_link_libraries(${PROJECT_NAME}
+  PRIVATE
+    stdc++
+)
 
- # 外部用cmake . -DBUILD_PLATFORM=arm进行值传入，便可以执行不同的逻辑
-if (BUILD_PLATFORM STREQUAL arm)
-  target_link_libraries(${PROJECT_NAME} libdeeprobotics_legged_sdk_aarch64.so)
+# Link platform-specific SDK library
+if(BUILD_PLATFORM STREQUAL "arm")
+  target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+      ${CMAKE_SOURCE_DIR}/lib/libdeeprobotics_legged_sdk_aarch64.so
+  )
 else()
-  target_link_libraries(${PROJECT_NAME} libdeeprobotics_legged_sdk_x86_64.so)
+  target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+      ${CMAKE_SOURCE_DIR}/lib/libdeeprobotics_legged_sdk_x86_64.so
+  )
 endif()
 
-target_link_libraries(${PROJECT_NAME} -lpthread -lm -lrt -ldl -lstdc++)
-
-
+# Install targets
+install(TARGETS ${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  PUBLIC_HEADER DESTINATION include/${PROJECT_NAME}
+)
