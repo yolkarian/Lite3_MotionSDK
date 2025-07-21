@@ -9,7 +9,7 @@ struct CallbackContext {
 };
 
 /// @brief Create a new Receiver object
-ReceiverHandle* Receiver_Create() {
+ReceiverHandle* Receiver_create() {
     try {
         Receiver* receiver = new Receiver();
         return reinterpret_cast<ReceiverHandle*>(receiver);
@@ -19,7 +19,7 @@ ReceiverHandle* Receiver_Create() {
 }
 
 /// @brief Destroy a Receiver object
-void Receiver_Destroy(ReceiverHandle* handle) {
+void Receiver_destroy(ReceiverHandle* handle) {
     if (handle) {
         Receiver* receiver = reinterpret_cast<Receiver*>(handle);
         delete receiver;
@@ -27,7 +27,7 @@ void Receiver_Destroy(ReceiverHandle* handle) {
 }
 
 /// @brief Start the receiving process
-void Receiver_StartWork(ReceiverHandle* handle) {
+void Receiver_startWork(ReceiverHandle* handle) {
     if (handle) {
         Receiver* receiver = reinterpret_cast<Receiver*>(handle);
         receiver->StartWork();
@@ -35,7 +35,7 @@ void Receiver_StartWork(ReceiverHandle* handle) {
 }
 
 /// @brief Register a callback function
-void Receiver_RegisterCallback(ReceiverHandle* handle, ReceiverCallback callback, void* user_data) {
+void Receiver_registerCallback(ReceiverHandle* handle, ReceiverCallback callback, void* user_data) {
     if (handle && callback) {
         Receiver* receiver = reinterpret_cast<Receiver*>(handle);
         // Create a context to store callback and user data
@@ -48,7 +48,7 @@ void Receiver_RegisterCallback(ReceiverHandle* handle, ReceiverCallback callback
 }
 
 /// @brief Get the received robot state data
-RobotData* Receiver_GetState(ReceiverHandle* handle) {
+RobotData* Receiver_getState(ReceiverHandle* handle) {
     if (handle) {
         Receiver* receiver = reinterpret_cast<Receiver*>(handle);
         return &receiver->GetState();

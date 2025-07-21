@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(Lite_motion LANGUAGES CXX)
+project(Lite_motion LANGUAGES C CXX)
 
 # Set build platform (default to x86)
 set(BUILD_PLATFORM "x86" CACHE STRING "Select build CPU type: x86 or arm")
@@ -73,6 +73,33 @@ else()
       ${CMAKE_SOURCE_DIR}/lib/libdeeprobotics_legged_sdk_x86_64.so
   )
 endif()
+
+# A Demo Library
+add_library(${PROJECT_NAME}_demo_lib STATIC
+  src/motionexample.cpp
+)
+  set_source_files_properties(main.c PROPERTIES LANGUAGE CXX)
+target_include_directories(
+  ${PROJECT_NAME}_demo_lib
+  PUBLIC
+    include
+    include/wrapped
+  PRIVATE
+    lib/eigen3
+    stdc++
+)
+
+# Demo to test the library
+add_executable(${PROJECT_NAME}_demo main.c)
+  # Compile main.c as C
+  set_source_files_properties(main.c PROPERTIES LANGUAGE C)
+  # Link with Lite_motion (C++ library)
+  target_link_libraries(${PROJECT_NAME}_demo 
+  PRIVATE 
+    ${PROJECT_NAME}
+    ${PROJECT_NAME}_demo_lib 
+)
+
 
 # Install targets
 install(TARGETS ${PROJECT_NAME}

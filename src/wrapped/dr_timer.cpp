@@ -9,7 +9,7 @@ struct DRTimerHandle {
     DRTimer* impl; // Pointer to the actual C++ DRTimer object
 };
 
-DRTimerHandle* dr_timer_create(void) {
+DRTimerHandle* DRTimer_create(void) {
     DRTimerHandle* timer = (DRTimerHandle*)malloc(sizeof(DRTimerHandle));
     if (!timer) {
         return NULL;
@@ -22,7 +22,7 @@ DRTimerHandle* dr_timer_create(void) {
     return timer;
 }
 
-void dr_timer_destroy(DRTimerHandle* timer) {
+void DRTimer_destroy(DRTimerHandle* timer) {
     if (timer && timer->impl) {
         delete timer->impl;
         timer->impl = NULL;
@@ -30,27 +30,27 @@ void dr_timer_destroy(DRTimerHandle* timer) {
     free(timer);
 }
 
-void dr_timer_init(DRTimerHandle* timer, int ms) {
+void DRTimer_init(DRTimerHandle* timer, int ms) {
     if (timer && timer->impl) {
         timer->impl->TimeInit(ms);
     }
 }
 
-bool dr_timer_interrupt(DRTimerHandle* timer) {
+bool DRTimer_interrupt(DRTimerHandle* timer) {
     if (timer && timer->impl) {
         return timer->impl->TimerInterrupt();
     }
     return false;
 }
 
-double dr_timer_get_interval_time(DRTimerHandle* timer, double start_time) {
+double DRTimer_getIntervalTime(DRTimerHandle* timer, double start_time) {
     if (timer && timer->impl) {
         return timer->impl->GetIntervalTime(start_time);
     }
     return 0.0;
 }
 
-double dr_timer_get_current_time(DRTimerHandle* timer) {
+double DRTimer_getCurrentTime(DRTimerHandle* timer) {
     if (timer && timer->impl) {
         return timer->impl->GetCurrentTime();
     }

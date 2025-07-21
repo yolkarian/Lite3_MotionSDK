@@ -6,6 +6,9 @@
 #include <stdint.h>
 #include "robot_types.h"
 
+#define SDK 2
+#define ROBOT 1
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -15,41 +18,41 @@ typedef void* SenderHandle;
 
 /// @brief Create a Sender object with default IP and port
 /// @return Handle to the created Sender object, or NULL on failure
-SenderHandle Sender_Create();
+SenderHandle Sender_create();
 
 /// @brief Create a Sender object with specified IP and port
 /// @param[in] ip The IP address to send data to (null-terminated string)
 /// @param[in] port The port number to send data to
 /// @return Handle to the created Sender object, or NULL on failure
-SenderHandle Sender_CreateWithIpPort(const char* ip, uint16_t port);
+SenderHandle Sender_createWithIpPort(const char* ip, uint16_t port);
 
 /// @brief Destroy a Sender object
 /// @param[in] handle Handle to the Sender object
-void Sender_Destroy(SenderHandle handle);
+void Sender_destroy(SenderHandle handle);
 
 /// @brief Send RobotCmd through UDP socket
 /// @param[in] handle Handle to the Sender object
 /// @param[in] robot_cmd Pointer to the RobotCmd struct to be sent
-void Sender_SendCmd(SenderHandle handle, const RobotCmd* robot_cmd);
+void Sender_sendCmd(SenderHandle handle, const RobotCmd* robot_cmd);
 
 /// @brief Send control_get command with specified mode
 /// @param[in] handle Handle to the Sender object
 /// @param[in] mode The mode of control_get command (SDK or ROBOT)
-void Sender_ControlGet(SenderHandle handle, uint32_t mode);
+void Sender_controlGet(SenderHandle handle, uint32_t mode);
 
 /// @brief Send a command to make all joints return to the zero position and acquire control
 /// @param[in] handle Handle to the Sender object
-void Sender_AllJointBackZero(SenderHandle handle);
+void Sender_allJointBackZero(SenderHandle handle);
 
 /// @brief Make all joints return to the zero position
 /// @param[in] handle Handle to the Sender object
-void Sender_RobotStateInit(SenderHandle handle);
+void Sender_robotStateInit(SenderHandle handle);
 
 /// @brief Set the value of a command
 /// @param[in] handle Handle to the Sender object
 /// @param[in] code The code of the command
 /// @param[in] value The value to be set
-void Sender_SetCmd(SenderHandle handle, uint32_t code, uint32_t value);
+void Sender_setCmd(SenderHandle handle, uint32_t code, uint32_t value);
 
 #ifdef __cplusplus
 }
