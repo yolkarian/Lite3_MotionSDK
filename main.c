@@ -67,7 +67,7 @@ int main(){
     // Unlike C++ manually destroy is needed or not
     
     Receiver_destroy(robot_data_recv);
-    Sender_create(send_cmd);
+    Sender_destroy(send_cmd);
     DRTimer_destroy(set_timer);
     return 0;
   } 

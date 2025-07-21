@@ -1,5 +1,5 @@
 #include "receiver.h"
-#include "receiver_.h"
+#include "receiver.hpp"
 #include <functional>
 
 /// @brief Structure to hold callback and user data

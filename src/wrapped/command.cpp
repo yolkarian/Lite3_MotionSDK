@@ -4,7 +4,7 @@
 /// @date 2025-07-20
 /// @copyright Copyright (c) 2025
 
-#include "command_.h"
+#include "command.hpp"
 #include "command.h" // Original header with Command class
 #include <sstream>
 #include <cstring>
@@ -59,21 +59,22 @@ void* Command_GetParameters(CommandHandle handle) {
     return cmd->GetCommandParameters();
 }
 
-int Command_ToString(CommandHandle handle, char* buffer, size_t buffer_size) {
-    if (!handle || !buffer || buffer_size == 0) return -1;
+// NOTE: not implemented yet. Cannot call operator<<(std::ostream&, Command&)
+// int Command_ToString(CommandHandle handle, char* buffer, size_t buffer_size) {
+//     if (!handle || !buffer || buffer_size == 0) return -1;
 
-    Command* cmd = static_cast<Command*>(handle);
-    std::stringstream ss;
-    ss << *cmd;
-    std::string result = ss.str();
+//     Command* cmd = static_cast<Command*>(handle);
+//     std::stringstream ss;
+//     ss << (*cmd);
+//     std::string result = ss.str();
 
-    if (result.size() >= buffer_size) {
-        return -2; // Buffer too small
-    }
+//     if (result.size() >= buffer_size) {
+//         return -2; // Buffer too small
+//     }
 
-    strncpy(buffer, result.c_str(), buffer_size);
-    buffer[buffer_size - 1] = '\0'; // Ensure null-termination
-    return 0;
-}
+//     strncpy(buffer, result.c_str(), buffer_size);
+//     buffer[buffer_size - 1] = '\0'; // Ensure null-termination
+//     return 0;
+// }
 
 } // extern "C"

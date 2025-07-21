@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 // Include the original C++ header
-#include "dr_timer_.h" // Assuming the original DRTimer class is in this header
+#include "dr_timer.hpp" // Assuming the original DRTimer class is in this header
 
 // Define the DRTimer struct as an opaque type that wraps the C++ DRTimer class
 struct DRTimerHandle {

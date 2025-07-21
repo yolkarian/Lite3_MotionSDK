@@ -81,7 +81,8 @@ void* Command_GetParameters(CommandHandle handle);
 /// @param buffer Output buffer for the string
 /// @param buffer_size Size of the output buffer
 /// @return 0 on success, non-zero on failure
-int Command_ToString(CommandHandle handle, char* buffer, size_t buffer_size);
+// int Command_ToString(CommandHandle handle, char* buffer, size_t buffer_size); 
+// NOTE: not implemented yet. Cannot call operator<<(std::ostream&, Command&)
 
 #ifdef __cplusplus
 }

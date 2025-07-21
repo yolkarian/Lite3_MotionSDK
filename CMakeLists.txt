@@ -30,9 +30,9 @@ add_compile_options(-w)
 set(SDK_LIB "lite3_sdk")
 
 # Create static library
-add_library(${PROJECT_NAME} STATIC
-  src/wrapped/udp_socket.cpp
-  src/wrapped/udp_server.cpp
+add_library(${PROJECT_NAME} SHARED
+  src/wrapped/udpsocket.cpp
+  src/wrapped/udpserver.cpp
   src/wrapped/dr_timer.cpp
   src/wrapped/receiver.cpp
   src/wrapped/sender.cpp
@@ -44,8 +44,8 @@ target_include_directories(${PROJECT_NAME}
   PUBLIC
     include/wrapped
   PRIVATE
-    include
     include/common
+    include
     lib/eigen3
 )
 
@@ -78,7 +78,6 @@ endif()
 add_library(${PROJECT_NAME}_demo_lib STATIC
   src/motionexample.cpp
 )
-  set_source_files_properties(main.c PROPERTIES LANGUAGE CXX)
 target_include_directories(
   ${PROJECT_NAME}_demo_lib
   PUBLIC
@@ -92,14 +91,12 @@ target_include_directories(
 # Demo to test the library
 add_executable(${PROJECT_NAME}_demo main.c)
   # Compile main.c as C
-  set_source_files_properties(main.c PROPERTIES LANGUAGE C)
   # Link with Lite_motion (C++ library)
-  target_link_libraries(${PROJECT_NAME}_demo 
+target_link_libraries(${PROJECT_NAME}_demo 
   PRIVATE 
     ${PROJECT_NAME}
     ${PROJECT_NAME}_demo_lib 
 )
-
 
 # Install targets
 install(TARGETS ${PROJECT_NAME}
