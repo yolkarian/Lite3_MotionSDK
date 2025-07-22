@@ -50,6 +50,10 @@ The driver will convert final joint control signal into a desired current and pe
 
 When the underlying controller has not received the commands from SDK for more than 1 second, it will retrieve control right, enter a damping protection mode, and after a certain period, clear the joint commands.
 
+Currently, original SDK can be used in projects compiled with GCC 11.4 on Ubuntu 20.04 x86 or aarch64. Since C++ ABI change, it cannot be used in projects compiled with Clangd.
+
+We wrapped it into pure C SDK. 
+
 
 **Example of control parameters for various control methods:**
 

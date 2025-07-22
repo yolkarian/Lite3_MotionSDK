@@ -13,9 +13,13 @@ if(BUILD_PLATFORM STREQUAL "arm")
   message(STATUS "Configuring for ARM platform")
   set(CMAKE_C_COMPILER "aarch64-linux-gnu-gcc")
   set(CMAKE_CXX_COMPILER "aarch64-linux-gnu-g++")
+  set(WRAPPED_LIB_NAME "deeprobotics_legged_wrapped_sdk_aarch64")
 else()
   message(STATUS "Configuring for x86 platform")
+  set(WRAPPED_LIB_NAME "deeprobotics_legged_wrapped_sdk_x86_64")
 endif()
+
+
 
 # Set build type and C++ standard
 # set(CMAKE_BUILD_TYPE Release)  # Enable Debug
@@ -29,8 +33,8 @@ add_compile_options(-w)
 # Define SDK library name
 set(SDK_LIB "lite3_sdk")
 
-# Create static library
-add_library(${PROJECT_NAME} SHARED
+# Create dynamic library
+add_library(${WRAPPED_LIB_NAME} SHARED
   src/wrapped/udpsocket.cpp
   src/wrapped/udpserver.cpp
   src/wrapped/dr_timer.cpp
@@ -40,7 +44,7 @@ add_library(${PROJECT_NAME} SHARED
 )
 
 # Specify include directories
-target_include_directories(${PROJECT_NAME}
+target_include_directories(${WRAPPED_LIB_NAME}
   PUBLIC
     include/wrapped
   PRIVATE
@@ -50,36 +54,36 @@ target_include_directories(${PROJECT_NAME}
 )
 
 # Specify library search path
-target_link_directories(${PROJECT_NAME}
+target_link_directories(${WRAPPED_LIB_NAME}
   PRIVATE
     ${CMAKE_SOURCE_DIR}/lib
 )
 
 # Link libraries
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${WRAPPED_LIB_NAME}
   PRIVATE
     stdc++
 )
 
 # Link platform-specific SDK library
 if(BUILD_PLATFORM STREQUAL "arm")
-  target_link_libraries(${PROJECT_NAME}
+  target_link_libraries(${WRAPPED_LIB_NAME}
     PRIVATE
       ${CMAKE_SOURCE_DIR}/lib/libdeeprobotics_legged_sdk_aarch64.so
   )
 else()
-  target_link_libraries(${PROJECT_NAME}
+  target_link_libraries(${WRAPPED_LIB_NAME}
     PRIVATE
       ${CMAKE_SOURCE_DIR}/lib/libdeeprobotics_legged_sdk_x86_64.so
   )
 endif()
 
 # A Demo Library
-add_library(${PROJECT_NAME}_demo_lib STATIC
+add_library(${PROJECT_NAME}_motion_lib STATIC
   src/motionexample.cpp
 )
 target_include_directories(
-  ${PROJECT_NAME}_demo_lib
+  ${PROJECT_NAME}_motion_lib
   PUBLIC
     include
     include/wrapped
@@ -89,17 +93,17 @@ target_include_directories(
 )
 
 # Demo to test the library
-add_executable(${PROJECT_NAME}_demo main.c)
+add_executable(${PROJECT_NAME} main.c)
   # Compile main.c as C
   # Link with Lite_motion (C++ library)
-target_link_libraries(${PROJECT_NAME}_demo 
+target_link_libraries(${PROJECT_NAME}
   PRIVATE 
-    ${PROJECT_NAME}
-    ${PROJECT_NAME}_demo_lib 
+    ${WRAPPED_LIB_NAME}
+    ${PROJECT_NAME}_motion_lib 
 )
 
 # Install targets
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS ${WRAPPED_LIB_NAME}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   PUBLIC_HEADER DESTINATION include/${PROJECT_NAME}
