@@ -56,11 +56,11 @@ int main(){
         standUp(&robot_joint_cmd,now_time,robot_data);        ///< Full stand up
       }
       if(time_tick >= 10000){
-        Sender_controlGet(set_timer, ROBOT);                                            ///< Return the control right, input: ROBOT: Original algorithm control of the robot .  SDK: SDK control PS: over 50ms, no data set sent_ Send (cmd), you will lose control, you need to resend to obtain control
+        Sender_controlGet(send_cmd, ROBOT);                                            ///< Return the control right, input: ROBOT: Original algorithm control of the robot .  SDK: SDK control PS: over 50ms, no data set sent_ Send (cmd), you will lose control, you need to resend to obtain control
         break;
       }
       if(is_message_updated_){
-        // send_cmd->SendCmd(robot_joint_cmd);  
+        // Sender_sendCmd(send_cmd, &robot_joint_cmd);
       }               
       //cout << robot_data->imu.acc_x << endl;
     }
